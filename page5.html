@@ -1,0 +1,260 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Power Kisses 💋❤️</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    overflow: hidden;
+    background: #fff;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+    user-select: none;
+}
+
+h1 {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    margin-top: 35px;
+    color: #ff4f87;
+    font-size: clamp(28px, 6vw, 45px);
+}
+
+p {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    margin: 15px;
+    color: #9c687b;
+    font-size: 17px;
+}
+
+#kissLayer {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    perspective: 900px;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.kiss {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    opacity: 0;
+    will-change: transform, opacity;
+    animation: flyForward 1.05s cubic-bezier(.12,.65,.2,1) forwards;
+    filter: drop-shadow(0 5px 8px #ff6f9b55);
+}
+
+@keyframes flyForward {
+    0% {
+        opacity: 0;
+        transform:
+            translate(var(--startX), var(--startY))
+            translateZ(-1000px)
+            scale(.08)
+            rotate(var(--rotation));
+    }
+
+    12% {
+        opacity: 1;
+    }
+
+    65% {
+        opacity: 1;
+    }
+
+    85% {
+        opacity: 1;
+        transform:
+            translate(var(--endX), var(--endY))
+            translateZ(100px)
+            scale(1.5)
+            rotate(var(--rotation));
+    }
+
+    100% {
+        opacity: 0;
+        transform:
+            translate(var(--endX), var(--endY))
+            translateZ(400px)
+            scale(2.5)
+            rotate(var(--rotation));
+    }
+}
+
+/* Impact shake */
+body.shake {
+    animation: screenShake .32s ease-out;
+}
+
+@keyframes screenShake {
+    0%   { transform: translate(0, 0); }
+    15%  { transform: translate(-5px, 3px); }
+    30%  { transform: translate(5px, -3px); }
+    45%  { transform: translate(-4px, -2px); }
+    60%  { transform: translate(4px, 2px); }
+    75%  { transform: translate(-2px, 1px); }
+    100% { transform: translate(0, 0); }
+}
+
+.counter {
+    position: fixed;
+    z-index: 10;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff0f5;
+    color: #e7477b;
+    padding: 12px 22px;
+    border-radius: 25px;
+    font-weight: bold;
+    box-shadow: 0 4px 15px #ffb6c155;
+    white-space: nowrap;
+}
+
+.hint {
+    position: fixed;
+    bottom: 75px;
+    width: 100%;
+    text-align: center;
+    color: #e7477b;
+    font-size: 14px;
+    pointer-events: none;
+}
+</style>
+</head>
+
+<body>
+
+<h1>💋 UNLIMITED KISSES ❤️</h1>
+<p>Ready, baby? Catch these kisses! 😘💕</p>
+
+<div id="kissLayer"></div>
+
+<div class="hint">Tap anywhere for a powerful kiss shower 💋</div>
+<div class="counter" id="counter">Kisses thrown: 0 💋</div>
+
+<script>
+const layer = document.getElementById("kissLayer");
+const emojis = ["💋", "😘", "💋", "❤️", "💕", "💖", "💋"];
+
+let total = 0;
+let shakeTimer;
+
+function shakeScreen() {
+    document.body.classList.remove("shake");
+
+    // Restart the shake animation
+    void document.body.offsetWidth;
+    document.body.classList.add("shake");
+
+    clearTimeout(shakeTimer);
+    shakeTimer = setTimeout(() => {
+        document.body.classList.remove("shake");
+    }, 350);
+}
+
+function throwKiss(x, y, powerful = true) {
+    const kiss = document.createElement("div");
+    kiss.className = "kiss";
+
+    kiss.textContent =
+        emojis[Math.floor(Math.random() * emojis.length)];
+
+    // Start far away, then rush toward the viewer
+    kiss.style.left = x + "px";
+    kiss.style.top = y + "px";
+
+    kiss.style.setProperty(
+        "--startX",
+        ((Math.random() - 0.5) * window.innerWidth * 1.5) + "px"
+    );
+
+    kiss.style.setProperty(
+        "--startY",
+        ((Math.random() - 0.5) * window.innerHeight * 1.5) + "px"
+    );
+
+    kiss.style.setProperty(
+        "--endX",
+        ((Math.random() - 0.5) * 180) + "px"
+    );
+
+    kiss.style.setProperty(
+        "--endY",
+        ((Math.random() - 0.5) * 160) + "px"
+    );
+
+    kiss.style.setProperty(
+        "--rotation",
+        ((Math.random() - 0.5) * 90) + "deg"
+    );
+
+    kiss.style.fontSize =
+        (powerful ? 35 + Math.random() * 35 : 25 + Math.random() * 25) + "px";
+
+    layer.appendChild(kiss);
+
+    total++;
+    document.getElementById("counter").textContent =
+        "Kisses thrown: " + total + " 💋";
+
+    kiss.addEventListener("animationend", () => kiss.remove());
+
+    if (powerful) {
+        setTimeout(shakeScreen, 650 + Math.random() * 150);
+    }
+}
+
+function kissShower(x, y) {
+    // Burst of kisses flying forward
+    for (let i = 0; i < 18; i++) {
+        setTimeout(() => {
+            throwKiss(
+                x + (Math.random() - 0.5) * 220,
+                y + (Math.random() - 0.5) * 180,
+                true
+            );
+        }, i * 35);
+    }
+}
+
+// Click or tap to launch a powerful shower
+document.addEventListener("click", event => {
+    kissShower(event.clientX, event.clientY);
+});
+
+// Kisses keep flying forward in the background
+setInterval(() => {
+    throwKiss(
+        Math.random() * window.innerWidth,
+        Math.random() * window.innerHeight,
+        false
+    );
+}, 500);
+</script>
+
+</body>
+
+<button onclick="window.location.href='page6.html'"
+style="position:fixed;bottom:20px;right:15px;z-index:100;
+background:#ff4f87;color:white;border:0;border-radius:25px;
+padding:14px 20px;font-weight:bold;cursor:pointer;">
+Final Surprise 💗
+</button>
+
+</html>

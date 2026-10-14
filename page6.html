@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bye Bye, My Love 💗</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ffe0eb, #ffc2d6, #fff0f5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.card {
+    width: 90%;
+    max-width: 470px;
+    padding: 35px 22px;
+    border-radius: 30px;
+    background: rgba(255,255,255,0.8);
+    border: 2px solid white;
+    box-shadow: 0 12px 40px #d94b7c33;
+    position: relative;
+    z-index: 2;
+}
+
+h1 {
+    color: #ff4780;
+    font-size: clamp(32px, 7vw, 45px);
+    margin-bottom: 15px;
+}
+
+.message {
+    color: #92536a;
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+.heart {
+    font-size: 40px;
+    margin: 15px 0;
+    animation: heartbeat 1s infinite;
+}
+
+.gift {
+    margin: 20px auto 12px;
+    font-size: 90px;
+    cursor: pointer;
+    display: inline-block;
+    animation: bounce 1.4s infinite;
+    transition: transform .3s;
+}
+
+.gift:hover {
+    transform: scale(1.15);
+}
+
+.gift-hint {
+    color: #d64b7b;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#giftMessage {
+    display: none;
+    margin-top: 20px;
+    padding: 18px;
+    background: #fff0f5;
+    border-radius: 20px;
+    color: #793b50;
+    line-height: 1.8;
+    animation: appear .5s ease;
+}
+
+button {
+    margin-top: 18px;
+    background: linear-gradient(135deg, #ff4f87, #ff8fab);
+    border: none;
+    color: white;
+    padding: 13px 25px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 5px 15px #ff4f8740;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+.floating {
+    position: fixed;
+    top: -40px;
+    pointer-events: none;
+    animation: fall linear forwards;
+    z-index: 1;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0) rotate(-4deg); }
+    50% { transform: translateY(-10px) rotate(4deg); }
+}
+
+@keyframes appear {
+    from { opacity: 0; transform: scale(.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0.2;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <h1>Bye Bye, Baby! 🥹💗</h1>
+
+    <div class="heart">❤️💋❤️</div>
+
+    <div class="message">
+        That's the end of your little surprise, love! 🫶🏻
+        <br>
+        <b>Love you soooo much! 💕</b>
+        <br>
+        Sending you one last hug and a million kisses! 😘
+    </div>
+
+    <div class="gift" id="gift" onclick="openGift()">🎁</div>
+
+    <div class="gift-hint" id="hint">
+        A little gift for you, baby! 🍫
+        <br>Tap the gift to unwrap it 💝
+    </div>
+
+    <div id="giftMessage">
+        🎉 SURPRISE, MY LOVE! 🎉
+        <br><br>
+        🍫🤎 <b>One dark chocolate for you!</b> 🤎🍫
+        <br><br>
+        Consider this your virtual chocolate.
+        <br>
+        Your real gift is waiting for you! 🥹💗
+        <br><br>
+        Bye bye, love you endlessly! 💋💕
+    </div>
+
+    <button onclick="openGift()">Open Your Gift 🎁</button>
+</div>
+
+<script>
+function openGift() {
+    document.getElementById("gift").textContent = "🍫";
+    document.getElementById("giftMessage").style.display = "block";
+    document.getElementById("hint").textContent =
+        "A sweet little gift for my sweetest person! 🤎";
+    document.querySelector("button").textContent = "Love You! ❤️";
+
+    for (let i = 0; i < 25; i++) {
+        setTimeout(makeHeart, i * 60);
+    }
+}
+
+function makeHeart() {
+    const heart = document.createElement("div");
+    heart.className = "floating";
+    heart.textContent = ["❤️", "💋", "💕", "🍫", "🤎"][
+        Math.floor(Math.random() * 5)
+    ];
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (20 + Math.random() * 25) + "px";
+    heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6500);
+}
+
+setInterval(makeHeart, 500);
+</script>
+
+</body>
+</html>
